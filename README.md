@@ -1,15 +1,21 @@
 PyConsul
 ========
 
+[![Latest Version](https://pypip.in/v/pyconsul/badge.png)](https://pypi.python.org/pypi/pyconsul/)
+[![Build Status](https://drone.io/github.com/hackliff/pyconsul/status.png)](https://drone.io/github.com/hackliff/pyconsul/latest)
+[![Coverage Status](https://coveralls.io/repos/hackliff/pyconsul/badge.png)](https://coveralls.io/r/hackliff/pyconsul)
+[![Requirements Status](https://requires.io/github/hackliff/pyconsul/requirements.png?branch=master)](https://requires.io/github/hackliff/pyconsul/requirements/?branch=master)
+[![License](https://pypip.in/license/pyconsul/badge.png)](https://pypi.python.org/pypi/pyconsul/)
+
 > Python client for [Consul][1]
 
 
-A dummy, one-file, implementation on top of the [HTTP API][5] of Consul.
+A dummy, one-file implementation on top of the [HTTP API][5] of Consul.
 
 Install
 -------
 
-* Install Consul following [the official guide][3] or this one-liner:
+* Install Consul following [the official guide][3], or this one-liner:
 
 ```console
 $ # Install consul 0.1.0_linux_amd64 under /usr/local/bin
@@ -19,8 +25,7 @@ $ wget -qO- https://raw.githubusercontent.com/hackliff/pyconsul/master/install-c
 * Install pyconsul library
 
 ```console
-$ git clone https://github.com/hackliff/pyconsul
-$ cd pyconsul && (sudo) python setup.py install
+$ (sudo) pip install pyconsul
 ```
 
 
@@ -30,22 +35,30 @@ Getting started
 I strongly advise you to go through [the official Consul documentation][4]
 before playing around with pyconsul.
 
-Make sure an agent is running, for example with :
+First, we need an agent in server mode.
 
 ```console
 consul agent -server -bootstrap \
   -data-dir /tmp/consul \
   -node=agent-one \
+  -client=192.168.0.19 \
   -bind=0.0.0.0
 ```
 
-Then you can talk to it
+Optionally, on different hosts, launch more consul agents in client mode.
+
+```console
+$ # Replace with the address provided above to `--client`
+$ consul agent --join 192.168.0.19 -data-dir /tmp/consul
+```
+
+Then you can interact with them it.
 
 ```python
-from pyconsul import Consul
+from pyconsul.http import Consul
 
-# On the same server
-consul_ = Consul()
+# `host` meets `-client <host>` arg of consul (default to 127.0.0.1)
+consul_ = Consul(host='0.0.0.0', port=8500)
 print consul_.status
 print consul_.health(node='agent-one')
 

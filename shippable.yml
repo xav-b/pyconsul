@@ -3,7 +3,7 @@ python:
   - "2.7"
 
 env:
-  - COVERALLS_REPO_TOKEN=
+  - COVERALLS_REPO_TOKEN=0aQQiU1xwRQLvFtQQN7UZAng4c4elnOdK
 
 install:
   - python setup.py install
@@ -16,6 +16,9 @@ before_script:
 script:
   - nosetests tests --with-coverage --cover-package=pyconsul --with-xunit --xunit-file=shippable/testresults/nosetests.xml
   - coverage xml -o shippable/codecoverage/coverage.xml
+
+after_success:
+  - coveralls
 
 notifications:
   mail:
