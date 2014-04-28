@@ -1,0 +1,27 @@
+language: python
+python:
+  - "2.7"
+
+env:
+  - COVERALLS_REPO_TOKEN=
+
+install:
+  - python setup.py install
+  - pip install --use-mirrors -r dev-requirements.txt
+
+before_script:
+  - mkdir -p shippable/codecoverage shippable/testresults
+  - pep8 --ignore E265 pyconsul tests
+
+script:
+  - nosetests tests --with-coverage --cover-package=pyconsul --with-xunit --xunit-file=shippable/testresults/nosetests.xml
+  - coverage xml -o shippable/codecoverage/coverage.xml
+
+notifications:
+  mail:
+    xavier.bruhiere@gmail.com
+
+branches:
+  only:
+    - master
+    - develop
