@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 
@@ -7,7 +6,7 @@
   --------------------------------
 
   :copyright (c) 2014 Xavier Bruhiere.
-  :license: %LICENCE%, see LICENSE for more details.
+  :license: MIT, see LICENSE for more details.
 '''
 
 import abc
@@ -28,7 +27,7 @@ class Consultant(object):
     # Useless but safe default value
     _endpoint = ''
 
-    def __init__(self, host='localhost', port=8300):
+    def __init__(self, host='localhost', port=8500):
         self.master = 'http://{}:{}'.format(host, port)
 
     @pyconsul.utils.safe_request

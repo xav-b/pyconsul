@@ -1,4 +1,3 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 
@@ -7,7 +6,7 @@
   ----------------------
 
   :copyright (c) 2014 Xavier Bruhiere.
-  :license: %LICENCE%, see LICENSE for more details.
+  :license: MIT, see LICENSE for more details.
 '''
 
 import requests
@@ -64,8 +63,11 @@ class Agent(factory.Consultant):
     '''
     _endpoint = 'agent'
 
-    def join(self, address, wan=0):
-        return self._get('agent/join/{}?wan={}'.format(address, wan))
+    def join(self, address, wan=None):
+        endpoint = 'agent/join/{}'.format(address)
+        if wan is not None:
+            endpoint += '?wan=1'
+        return self._get(endpoint)
 
     def force_leave(self, node):
         return self._get('agent/force-leave/{}'.format(node))
@@ -94,6 +96,14 @@ class Consul(factory.Consultant):
             'leader': self._get('status/leader'),
             'peers': self._get('status/peers')
         }
+
+    @property
+    def leader(self):
+        return self.status['leader']
+
+    @property
+    def peers(self):
+        return self.status['peers']
 
     def node(self, name):
         return self._get('catalog/node/' + name)

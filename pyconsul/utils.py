@@ -1,13 +1,11 @@
-#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 
 '''
   :copyright (c) 2014 Xavier Bruhiere.
-  :license: %LICENCE%, see LICENSE for more details.
+  :license: MIT, see LICENSE for more details.
 '''
 
-import sys
 import base64
 import requests
 
@@ -27,14 +25,13 @@ def safe_request(fct):
         try:
             _data = fct(*args, **kwargs)
         except requests.exceptions.ConnectionError as error:
-            # TODO Raise a custom error
-            sys.exit(error.message)
+            return {'error': str(error), 'status': 404}
 
         if _data.ok:
             if _data.content:
                 safe_data = _data.json()
             else:
-                safe_data = {'deleted': True}
+                safe_data = {'success': True}
         else:
             safe_data = {'error': _data.reason, 'status': _data.status_code}
 
