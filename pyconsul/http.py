@@ -52,7 +52,7 @@ class KVStorage(factory.Consultant):
         )
 
 
-# TODO All of the agent/check/* and agent/services/* endpoints
+# TODO All of the agent/check/* and agent/services/* endpoints (as objects ?)
 class Agent(factory.Consultant):
     '''
     Local agent HTTP access
@@ -115,6 +115,8 @@ class Consul(factory.Consultant):
         '''
         Support `node`, `service`, `check`, `state`
         '''
+        if not len(kwargs):
+            raise ValueError('no resource provided')
         for resource, name in kwargs.iteritems():
             endpoint = 'health/{}/{}'.format(resource, name)
         return self._get(endpoint)

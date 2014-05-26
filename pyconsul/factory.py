@@ -43,6 +43,19 @@ class Consultant(object):
             params=payload
         )
 
+    @pyconsul.utils.safe_request
+    def _put(self, resource, payload=None):
+        ''' Wrapper around requests.put that shorten caller url and takes care
+        of errors '''
+        # Avoid dangerous default function argument `{}`
+        payload = payload or {}
+        # Build the request and return json response
+        return requests.put(
+            '{}/{}/{}'.format(
+                self.master, pyconsul.__consul_api_version__, resource),
+            params=payload
+        )
+
     def __getattr__(self, name):
         '''
         Add elegant support for attributes related to endpoints.

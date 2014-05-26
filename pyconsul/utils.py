@@ -11,7 +11,9 @@ import requests
 
 
 def decode_values(fct):
+    ''' Decode base64 encoded responses from Consul storage '''
     def inner(*args, **kwargs):
+        ''' decorator '''
         data = fct(*args, **kwargs)
         if 'error' not in data:
             for result in data:
@@ -21,7 +23,9 @@ def decode_values(fct):
 
 
 def safe_request(fct):
+    ''' Return json messages instead of raising errors '''
     def inner(*args, **kwargs):
+        ''' decorator '''
         try:
             _data = fct(*args, **kwargs)
         except requests.exceptions.ConnectionError as error:
