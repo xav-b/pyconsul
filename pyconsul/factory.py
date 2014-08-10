@@ -66,5 +66,5 @@ class Consultant(object):
             return self.__dict__[name]
         # Dynamic attribute based on the property name
         else:
-            # We don't check anything because _get check for unknown resources
+            # We don't check anything because _get checks for unknown resources
             return self._get('/'.join([self._endpoint, name]))

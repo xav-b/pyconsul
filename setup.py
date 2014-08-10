@@ -10,12 +10,15 @@
   :license: Apache 2.0, see LICENSE for more details.
 '''
 
+import multiprocessing
 import setuptools
-from pyconsul import __version__, __author__, __licence__
+from pyconsul import __version__, __author__, __licence__, __project__
 
 
 REQUIREMENTS = [
-    'requests>=2.3.0'
+    'requests',
+    'influxdb',
+    'pandas'
 ]
 
 
@@ -29,7 +32,7 @@ def long_description():
 
 
 setuptools.setup(
-    name='pyconsul',
+    name=__project__,
     version=__version__,
     description='Python client for Consul (http://www.consul.io)',
     author=__author__,
@@ -46,6 +49,6 @@ setuptools.setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
         'Operating System :: OS Independent',
-        'Topic :: Documentation',
+        'Topic :: Documentation'
     ]
 )

@@ -7,7 +7,7 @@ env:
 
 install:
   - python setup.py install
-  - pip install --use-mirrors -r dev-requirements.txt
+  - pip install -r dev-requirements.txt
 
 before_script:
   - mkdir -p shippable/codecoverage shippable/testresults

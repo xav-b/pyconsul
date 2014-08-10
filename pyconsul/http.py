@@ -9,6 +9,7 @@
   :license: MIT, see LICENSE for more details.
 '''
 
+import os
 import requests
 import pyconsul.utils
 import pyconsul.factory as factory
@@ -60,8 +61,13 @@ class Agent(factory.Consultant):
         - checks
         - services
         - members
+        - self
     '''
     _endpoint = 'agent'
+
+    def __call__(self):
+        ''' Like Agent.self '''
+        return self._get('/'.join([self._endpoint, 'self']))
 
     def join(self, address, wan=None):
         endpoint = 'agent/join/{}'.format(address)
@@ -85,8 +91,12 @@ class Consul(factory.Consultant):
     '''
     _endpoint = 'catalog'
 
-    def __init__(self, host='localhost', port=8500):
-        factory.Consultant.__init__(self, host=host, port=port)
+    def __init__(self, host=None, port=None):
+        host = host or os.environ.get('CONSUL_HOST', 'localhost')
+        port = port or os.environ.get('CONSUL_PORT', 8500)
+        # factory.Consultant.__init__(self, host=host, port=port)
+        super(Consul, self).__init__(host=host, port=port)
+
         self.local_agent = Agent(host=host, port=port)
         self.storage = KVStorage(host=host, port=port)
 

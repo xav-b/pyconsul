@@ -13,6 +13,6 @@ __project__ = 'pyconsul'
 __author__ = 'Xavier Bruhiere'
 __copyright__ = 'Xavier Bruhiere'
 __licence__ = 'MIT'
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 __consul_api_version__ = 'v1'
