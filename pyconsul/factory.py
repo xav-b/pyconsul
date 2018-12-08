@@ -40,7 +40,9 @@ class Consultant(object):
         return requests.get(
             '{}/{}/{}'.format(
                 self.master, pyconsul.__consul_api_version__, resource),
-            params=payload
+            params=payload,
+            # TODO de-hardcode version
+            headers={'Accept': 'application/vnd.consul+json; version=1'}
         )
 
     @pyconsul.utils.safe_request
@@ -53,7 +55,9 @@ class Consultant(object):
         return requests.put(
             '{}/{}/{}'.format(
                 self.master, pyconsul.__consul_api_version__, resource),
-            params=payload
+            params=payload,
+            # TODO de-hardcode version
+            headers={'Accept': 'application/vnd.consul+json; version=1'}
         )
 
     def __getattr__(self, name):
@@ -66,5 +70,5 @@ class Consultant(object):
             return self.__dict__[name]
         # Dynamic attribute based on the property name
         else:
-            # We don't check anything because _get checks for unknown resources
+            # We don't check anything because _get does it for unknown resources
             return self._get('/'.join([self._endpoint, name]))

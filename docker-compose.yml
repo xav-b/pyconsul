@@ -1,0 +1,24 @@
+---
+consul:
+  image: progrium/consul
+  hostname: consul-server
+  ports:
+    - 8400:8400
+    - 8500:8500
+    - 8600:53/udp
+  command: "-server -bootstrap -ui-dir /ui"
+
+lab:
+  dockerfile: Dockerfile.dev
+  build: .
+  stdin_open: true
+  tty: true
+  working_dir: /app
+  volumes:
+    - .:/app
+  links:
+    - consul:consul
+  ports:
+    # documentation server
+    - 8000:8000
+  command: python
